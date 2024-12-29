@@ -85,8 +85,5 @@ python hospital_management.py
 - The system includes input validation for all user inputs
 - Built-in demo data for testing functionality
 
-## License
-[Add your chosen license here]
-
 ## Contributing
-[Add contribution guidelines if desired]
+[Ahmed Diaa]
