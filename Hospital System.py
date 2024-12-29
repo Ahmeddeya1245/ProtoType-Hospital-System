@@ -14,7 +14,7 @@ def input_valid_int(msg, start=0, end=None):
             return int(inp)
 
 
-class patient:
+class Patient:
     def __init__(self, name, status):
         self.name = name
         self.status = status
@@ -48,27 +48,33 @@ class Hospital:
 
     def Add_Patient_Smart(self, specialization, name, status):
         spec = self.specializations_cnt[specialization]
-        spec.appeed(patient(name, status))
+        spec.appeed(Patient(name, status))
         spec.sort()
 
     def add_patient(self, specializaion, name, status):
         spec = self.specializations_cnt[specializaion]
-        pat = patient(name, status)
-        if pat.status == self.normal:
+        pat = Patient(name, status)
+        if len(spec) > self.max_queue:
+            return "no more patient can be Added "
+        if status == 0 or len(spec) == 0 :
             spec.append(pat)
-            return "Patient added successfully"
-        elif pat.status == self.urgent:
-            spec.append(pat)
-            for i in range(len(spec) - 1, 1):
-                if spec[i - 1].status < 1:
-                    spec[i], spec[i - 1] = spec[i - 1], spec[i]
-            return "Patient added successfully"
-        elif pat.status == self.super_urgent:
-            spec.append(pat)
-            for i in range(len(spec) - 1, 1):
-                if spec[i - 1].status < 2:
-                    spec[i], spec[i - 1] = spec[i - 1], spec[i]
-            return "Patient added successfully"
+        elif status == 1 :
+            if spec[-1].status != self.normal :
+                spec.append(pat)
+            else:
+                for idx , patient in enumerate(spec) :
+                    if patient.status == self.normal:
+                        spec.insert(idx , pat)
+                        break
+        else :
+            if spec[-1].status == self.super_urgent:
+                spec.append(pat)
+            else:
+                for idx , patient in enumerate(spec):
+                    if patient.status == self.normal or patient.status==self.urgent:
+                        spec.insert(idx,pat)
+                        break
+
 
     def get_printable_patients_info(self):
         results = []
